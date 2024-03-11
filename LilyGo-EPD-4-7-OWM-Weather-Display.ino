@@ -195,7 +195,7 @@ String ReplacePolishCharWithLatin(String s) {
 
 bool DecodeWeather(WiFiClient& json, String Type) {
   Serial.print(F("\nCreating object...and "));
-  DynamicJsonDocument doc(64 * 1024);                      // allocate the JsonDocument
+  JsonDocument doc;                                        // allocate the JsonDocument
   DeserializationError error = deserializeJson(doc, json); // Deserialize the JSON document
   if (error) {                                             // Test if parsing succeeds.
     Serial.print(F("deserializeJson() failed: "));
@@ -241,7 +241,7 @@ bool DecodeWeather(WiFiClient& json, String Type) {
       WxForecast[r].High              = list[r]["main"]["temp_max"].as<float>();   Serial.println("THig: " + String(WxForecast[r].High));
       WxForecast[r].Pressure          = list[r]["main"]["pressure"].as<float>();   Serial.println("Pres: " + String(WxForecast[r].Pressure));
       WxForecast[r].Humidity          = list[r]["main"]["humidity"].as<float>();   Serial.println("Humi: " + String(WxForecast[r].Humidity));
-      WxForecast[r].Icon              = list[r]["weather"][0]["icon"].as<char*>(); Serial.println("Icon: " + String(WxForecast[r].Icon));
+      WxForecast[r].Icon              = list[r]["weather"][0]["icon"].as<const char*>(); Serial.println("Icon: " + String(WxForecast[r].Icon));
       WxForecast[r].Rainfall          = list[r]["rain"]["3h"].as<float>();         Serial.println("Rain: " + String(WxForecast[r].Rainfall));
       WxForecast[r].Snowfall          = list[r]["snow"]["3h"].as<float>();         Serial.println("Snow: " + String(WxForecast[r].Snowfall));
       if (r < 8) { // Check next 3 x 8 Hours = 1 day
